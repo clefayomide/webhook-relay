@@ -1,10 +1,10 @@
 <p align="center">
-Webhook Relay & Processing Template
+Webhook Relay
 </p>
 
 ## 🧩 Overview
 
-This project is a robust and scalable template for handling webhooks, designed specifically for payment providers and third-party API integrations. It offers a plug-and-play system to reliably receive, verify, queue, and process webhook events, featuring built-in support for idempotency checks and background job handling.
+Webhook Relay is a plug-and-play, open-source template designed for **payment companies, SaaS platforms, and fintech startups**. It unifies inconsistent webhook structures from various payment gateways into a **standardized event format**, so you can scale integrations faster and maintain consistency across your stack.
 
 Currently, it includes webhook setup support for:
 
@@ -12,17 +12,16 @@ Currently, it includes webhook setup support for:
 
 ## ✨ Features
 
-🔐 Signature validation middleware for webhook security
+- Signature validation middleware according to gateway standard
 
-🧩 Modular architecture with pluggable event handlers
+- Custom event mapping per gateway
 
-🔁 Idempotency checks using Redis to prevent duplicate processing
+- Database-agnostic design – bring your own storage logic (PostgreSQL, MongoDB, Firebase, etc.)
 
-📬 Optional background job queue (BullMQ/RabbitMQ) for async processing
+- Easily extensible for multiple payment gateways
 
-📦 Database-agnostic design – bring your own storage logic (PostgreSQL, MongoDB, Firebase, etc.)
+- Designed to be self-hosted and audit-friendly
 
-🧪 Easily extensible for multiple payment gateways
 
 ## Versions
 
