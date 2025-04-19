@@ -1,4 +1,5 @@
 import {
+  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -21,15 +22,13 @@ import { SecurityService } from './security/security.service';
     SecurityModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SecurityService],
+  providers: [AppService, SecurityService, Logger],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(SecurityMiddleware)
-      .forRoutes({
-        path: `${apiEntryPoint}/:name`,
-        method: RequestMethod.POST,
-      });
+    consumer.apply(SecurityMiddleware).forRoutes({
+      path: `${apiEntryPoint}/:name`,
+      method: RequestMethod.POST,
+    });
   }
 }

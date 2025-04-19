@@ -5,7 +5,6 @@ import * as crypto from 'crypto';
 export class IPGSecurityService implements IPGReqSecurityStrategyI {
   constructor(private readonly secretKey: string) {}
   verifyRequest(req: Request): boolean {
-    console.log('IPG REQ ==>', req);
     const signature = req.headers['x-interswitch-signature'];
 
     if (!signature) {
