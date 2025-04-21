@@ -12,6 +12,7 @@ export const LoggerFactory = () => {
         format: format.combine(format.timestamp(), format.json()),
         maxFiles: '30d',
       }),
+
       // logging all level
       new transports.DailyRotateFile({
         filename: `logs/%DATE%-combined.log`,

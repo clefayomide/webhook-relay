@@ -1,13 +1,12 @@
 import {
-  HttpException,
-  HttpStatus,
+  BadRequestException,
   Injectable,
   Logger,
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { APP_MSG } from 'src/constant';
-import { SecurityService } from 'src/security/security.service';
+import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
+import { SecurityService } from 'src/modules/security/security.service';
 
 @Injectable()
 export class SecurityMiddleware implements NestMiddleware {
@@ -17,24 +16,39 @@ export class SecurityMiddleware implements NestMiddleware {
   ) {}
   use(req: Request, res: Response, next: NextFunction) {
     const startTime = Date.now();
-    if (!this.securityService.verifyRequest(req)) {
+    const gateway = req.params.name?.toLowerCase();
+
+    // We validate the `provider` param here instead of using a ValidationPipe
+    // because middleware in NestJS executes before the controller layer.
+    // Since this middleware depends on the provider to determine the appropriate
+    // security strategy, it's crucial to ensure the provider is valid early in
+    // the request lifecycle — before it ever reaches the route handler or pipes.
+    if (!gateway || !Object.values(SUPPORTED_GATEWAY).includes(gateway)) {
       this.logger.error(
-        `[${req.method}] ${req.url}: ${APP_MSG.INVALID_REQ_ORIGIN}`,
+        `[${req.method}] ${req.url}: ${APP_MSG.UNSUPPORTED_GATEWAY} - supplied gateway:${gateway}`,
         { headers: req.headers, ip: req.ip },
         SecurityMiddleware.name,
       );
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.BAD_REQUEST,
-          error: APP_MSG.INVALID_REQ_ORIGIN,
-        },
-        HttpStatus.BAD_REQUEST,
-        {
-          cause: new Error(APP_MSG.INVALID_REQ_ORIGIN),
-        },
-      );
+      throw new BadRequestException(APP_MSG.UNSUPPORTED_GATEWAY);
     }
 
+    // Verifies the request's origin and integrity using the SecurityService.
+    if (
+      !this.securityService.verifyRequest({
+        gateway,
+        body: req.body,
+        headers: req.headers,
+      })
+    ) {
+      this.logger.error(
+        `[${req.method}] ${req.url}: ${APP_MSG.INVALID_PAYLOAD}`,
+        { headers: req.headers, ip: req.ip },
+        SecurityMiddleware.name,
+      );
+      throw new BadRequestException(APP_MSG.INVALID_PAYLOAD);
+    }
+
+    // Logs the response time and status code after the response is sent.
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
       this.logger.log(
@@ -43,7 +57,6 @@ export class SecurityMiddleware implements NestMiddleware {
         SecurityMiddleware.name,
       );
     });
-
     next();
   }
 }

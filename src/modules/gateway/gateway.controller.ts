@@ -1,4 +1,4 @@
-import { Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { GatewayControllerI } from 'src/types';
 import { apiEntryPoint } from 'src/constant';
@@ -8,7 +8,7 @@ export class GatewayController implements GatewayControllerI {
   constructor(private readonly gatewayService: GatewayService) {}
   @Post(':name')
   @HttpCode(HttpStatus.OK)
-  processEvent() {
-    return this.gatewayService.processEvent();
+  processEvent(@Param() name: string) {
+    return this.gatewayService.processEvent(name);
   }
 }
