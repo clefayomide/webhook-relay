@@ -18,16 +18,14 @@ export class SecurityService implements SecurityServiceI {
 
   private determineStrategy(gateway: string) {
     const strategy = this.utils.resolveGatewayStrategy(gateway);
-
-    if (strategy) {
-      this.setStrategy(strategy);
-    }
+    this.setStrategy(strategy);
   }
+
   public verifyRequest({ gateway, ...rest }: SecurityServicePayload) {
     this.determineStrategy(gateway);
 
     if (!this.strategy) {
-      return false;
+      throw new Error("couldn't determine strategy");
     }
 
     return this.strategy.verifyRequest(rest);

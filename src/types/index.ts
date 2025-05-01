@@ -1,10 +1,13 @@
-import { Request } from 'express';
-import { IPGSecurityService } from 'src/modules/security/providers.service';
+import { Request, Response } from 'express';
+import { IPGSecurityService } from 'src/modules/security/providers/ipg.security.service';
 
 export type ProcessEventResponseType = { eventId: string; eventType: string };
 
 export interface GatewayControllerI {
-  processEvent(name: string): Promise<ProcessEventResponseType>;
+  processEvent(
+    name: string,
+    response: Response,
+  ): Promise<ProcessEventResponseType>;
 }
 
 export interface GatewayServiceI

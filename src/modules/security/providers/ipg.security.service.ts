@@ -6,7 +6,7 @@ import {
 import * as crypto from 'crypto';
 
 export class IPGSecurityService implements IPGSecurityServiceI {
-  constructor(private readonly secretKey: string) {}
+  constructor(private readonly secret: string) {}
   verifyRequest({ body, headers }: GatewaySecurityServicePayload) {
     const signature = headers['x-interswitch-signature'] as string;
 
@@ -24,7 +24,7 @@ export class IPGSecurityService implements IPGSecurityServiceI {
     data,
   }: IPGVerifyHashParamsType): boolean {
     const generatedHash = crypto
-      .createHmac('sha512', this.secretKey)
+      .createHmac('sha512', this.secret)
       .update(data)
       .digest('hex');
 

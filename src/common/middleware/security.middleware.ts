@@ -23,6 +23,7 @@ export class SecurityMiddleware implements NestMiddleware {
     // Since this middleware depends on the provider to determine the appropriate
     // security strategy, it's crucial to ensure the provider is valid early in
     // the request lifecycle — before it ever reaches the route handler or pipes.
+    
     if (!gateway || !Object.values(SUPPORTED_GATEWAY).includes(gateway)) {
       this.logger.error(
         `[${req.method}] ${req.url}: ${APP_MSG.UNSUPPORTED_GATEWAY} - supplied gateway:${gateway}`,
@@ -32,7 +33,6 @@ export class SecurityMiddleware implements NestMiddleware {
       throw new BadRequestException(APP_MSG.UNSUPPORTED_GATEWAY);
     }
 
-    // Verifies the request's origin and integrity using the SecurityService.
     if (
       !this.securityService.verifyRequest({
         gateway,
@@ -48,7 +48,6 @@ export class SecurityMiddleware implements NestMiddleware {
       throw new BadRequestException(APP_MSG.INVALID_PAYLOAD);
     }
 
-    // Logs the response time and status code after the response is sent.
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
       this.logger.log(
