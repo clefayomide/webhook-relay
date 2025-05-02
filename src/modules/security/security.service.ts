@@ -5,6 +5,7 @@ import {
   GatewayStrategyType,
 } from 'src/types';
 import { UtilsService } from 'src/modules/utils/utils.service';
+import { APP_MSG } from 'src/constant';
 
 @Injectable()
 export class SecurityService implements SecurityServiceI {
@@ -25,7 +26,7 @@ export class SecurityService implements SecurityServiceI {
     this.determineStrategy(gateway);
 
     if (!this.strategy) {
-      throw new Error("couldn't determine strategy");
+      throw new Error(APP_MSG.STRATEGY_NOT_FOUND);
     }
 
     return this.strategy.verifyRequest(rest);

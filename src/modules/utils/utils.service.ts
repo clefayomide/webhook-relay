@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SUPPORTED_GATEWAY } from 'src/constant';
+import { SECRET_PATHS, SUPPORTED_GATEWAY } from 'src/constant';
 import { IPGSecurityService } from '../security/providers/ipg.security.service';
 import { GatewayStrategyType, UtilsServiceType } from 'src/types';
 
@@ -14,7 +14,7 @@ export class UtilsService implements UtilsServiceType {
     switch (true) {
       case gateway === SUPPORTED_GATEWAY.IPG: {
         const secret = this.configService.get<string>(
-          'gatewaySecretkeys.ipg',
+          SECRET_PATHS.IPG,
         ) as string;
         strategy = new IPGSecurityService(secret);
         break;
