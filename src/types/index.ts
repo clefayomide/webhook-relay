@@ -1,39 +1,43 @@
 import { Request, Response } from 'express';
-import { IPGSecurityService } from 'src/modules/security/providers/ipg.security.service';
+import { IPGProcessor } from 'src/modules/processor/providers/ipg.processor';
 
 export type ProcessEventResponseType = { eventId: string; eventType: string };
 
 export interface GatewayControllerI {
+  receiveEvent(
+    name: string,
+    response: Response,
+  ): Promise<ProcessEventResponseType>;
+}
+
+export interface GatewayServiceI {
   processEvent(
     name: string,
     response: Response,
   ): Promise<ProcessEventResponseType>;
 }
 
-export interface GatewayServiceI
-  extends Pick<GatewayControllerI, 'processEvent'> {}
+export type ProcessorStrategyType = IPGProcessor | null;
 
-export type GatewayStrategyType = IPGSecurityService | null;
-
-export type SecurityServicePayload = {
+export type ProcessorVerifyReqPayloadType = {
   gateway: string;
   body: Request['body'];
   headers: Request['headers'];
 };
 
-export type GatewaySecurityServicePayload = Omit<
-  SecurityServicePayload,
+export type ProviderVerifyReqPayloadType = Omit<
+  ProcessorVerifyReqPayloadType,
   'gateway'
 >;
-export interface SecurityServiceI {
-  verifyRequest(payload: SecurityServicePayload): boolean;
+export interface ProcessorServiceI {
+  verifyRequest(payload: ProcessorVerifyReqPayloadType): boolean;
 }
 
-interface BaseGatewaySecurityServiceType {
-  verifyRequest(payload: GatewaySecurityServicePayload): boolean;
+interface BaseProcessorI {
+  verifyRequest(payload: ProviderVerifyReqPayloadType): boolean;
 }
 
-export interface IPGSecurityServiceI extends BaseGatewaySecurityServiceType {}
+export interface IPGProcessorI extends BaseProcessorI {}
 
 export type IPGVerifyHashParamsType = {
   signature: string;
@@ -41,5 +45,9 @@ export type IPGVerifyHashParamsType = {
 };
 
 export type UtilsServiceType = {
-  resolveGatewayStrategy(gateway: string): GatewayStrategyType;
+  resolveGatewayStrategy(gateway: string): ProcessorStrategyType;
 };
+
+export interface StrategyFactoryI {
+  createStrategyMap(gateway: string): ProcessorStrategyType;
+}

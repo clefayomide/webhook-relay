@@ -16,7 +16,7 @@ export class GatewayController implements GatewayControllerI {
   constructor(private readonly gatewayService: GatewayService) {}
   @Post(':name')
   @HttpCode(HttpStatus.OK)
-  processEvent(@Param() name: string, @Res() response: Response) {
+  receiveEvent(@Param() name: string, @Res() response: Response) {
     response.end();
     return this.gatewayService.processEvent(name);
   }

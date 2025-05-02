@@ -1,13 +1,13 @@
 import {
-  GatewaySecurityServicePayload,
-  IPGSecurityServiceI,
+  ProviderVerifyReqPayloadType,
+  IPGProcessorI,
   IPGVerifyHashParamsType,
 } from 'src/types';
 import * as crypto from 'crypto';
 
-export class IPGSecurityService implements IPGSecurityServiceI {
+export class IPGProcessor implements IPGProcessorI {
   constructor(private readonly secret: string) {}
-  verifyRequest({ body, headers }: GatewaySecurityServicePayload) {
+  verifyRequest({ body, headers }: ProviderVerifyReqPayloadType) {
     const signature = headers['x-interswitch-signature'] as string;
 
     if (!signature) {

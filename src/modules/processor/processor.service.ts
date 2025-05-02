@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import {
-  SecurityServiceI,
-  SecurityServicePayload,
-  GatewayStrategyType,
+  ProcessorServiceI,
+  ProcessorVerifyReqPayloadType,
+  ProcessorStrategyType,
 } from 'src/types';
 import { UtilsService } from 'src/modules/utils/utils.service';
 import { APP_MSG } from 'src/constant';
 
 @Injectable()
-export class SecurityService implements SecurityServiceI {
+export class ProcessorService implements ProcessorServiceI {
   constructor(private readonly utils: UtilsService) {}
 
-  private strategy: GatewayStrategyType;
+  private strategy: ProcessorStrategyType;
 
-  private setStrategy(strategy: GatewayStrategyType) {
+  private setStrategy(strategy: ProcessorStrategyType) {
     this.strategy = strategy;
   }
 
@@ -22,7 +22,7 @@ export class SecurityService implements SecurityServiceI {
     this.setStrategy(strategy);
   }
 
-  public verifyRequest({ gateway, ...rest }: SecurityServicePayload) {
+  public verifyRequest({ gateway, ...rest }: ProcessorVerifyReqPayloadType) {
     this.determineStrategy(gateway);
 
     if (!this.strategy) {
