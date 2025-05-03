@@ -1,6 +1,6 @@
 export const SUPPORTED_GATEWAY = {
   IPG: 'ipg',
-};
+} as const;
 
 export const APP_MSG = {
   UNSUPPORTED_GATEWAY: `We only support the following gateways currently: ${Object.values(SUPPORTED_GATEWAY).toString()}`,

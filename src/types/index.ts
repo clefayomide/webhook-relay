@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { IPGProcessor } from 'src/modules/processor/providers/ipg.processor';
+import { SUPPORTED_GATEWAY } from 'src/constant';
+import { IPGProcessor } from 'src/modules/processor/provider/ipg.provider';
 
 export type ProcessEventResponseType = { eventId: string; eventType: string };
 
@@ -20,7 +21,7 @@ export interface GatewayServiceI {
 export type ProcessorStrategyType = IPGProcessor | null;
 
 export type ProcessorVerifyReqPayloadType = {
-  gateway: string;
+  gateway: SupportedGatewayType;
   body: Request['body'];
   headers: Request['headers'];
 };
@@ -51,3 +52,6 @@ export type UtilsServiceType = {
 export interface StrategyFactoryI {
   createStrategyMap(gateway: string): ProcessorStrategyType;
 }
+
+export type SupportedGatewayType =
+  (typeof SUPPORTED_GATEWAY)[keyof typeof SUPPORTED_GATEWAY];

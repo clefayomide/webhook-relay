@@ -3,6 +3,7 @@ import {
   ProcessorServiceI,
   ProcessorVerifyReqPayloadType,
   ProcessorStrategyType,
+  SupportedGatewayType,
 } from 'src/types';
 import { UtilsService } from 'src/modules/utils/utils.service';
 import { APP_MSG } from 'src/constant';
@@ -17,7 +18,7 @@ export class ProcessorService implements ProcessorServiceI {
     this.strategy = strategy;
   }
 
-  private determineStrategy(gateway: string) {
+  private determineStrategy(gateway: SupportedGatewayType) {
     const strategy = this.utils.resolveGatewayStrategy(gateway);
     this.setStrategy(strategy);
   }

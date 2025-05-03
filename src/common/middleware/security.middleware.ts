@@ -7,6 +7,7 @@ import {
 import { Request, Response, NextFunction } from 'express';
 import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
 import { ProcessorService } from 'src/modules/processor/processor.service';
+import { SupportedGatewayType } from 'src/types';
 
 @Injectable()
 export class SecurityMiddleware implements NestMiddleware {
@@ -16,7 +17,7 @@ export class SecurityMiddleware implements NestMiddleware {
   ) {}
   use(req: Request, res: Response, next: NextFunction) {
     const startTime = Date.now();
-    const gateway = req.params.name?.toLowerCase();
+    const gateway = req.params.name?.toLowerCase() as SupportedGatewayType;
 
     // We validate the `provider` param here instead of using a ValidationPipe
     // because middleware in NestJS executes before the controller layer.
