@@ -1,5 +1,4 @@
 import {
-  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -7,22 +6,19 @@ import {
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GatewayModule } from './modules/gateway/gateway.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 import { apiEntryPoint } from './constant';
-import { ProcessorService } from './modules/processor/processor.service';
-import { UtilsModule } from './modules/utils/utils.module';
+import { CommonModule } from './modules/common/common.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
-    GatewayModule,
-    UtilsModule,
+    CommonModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Logger, ProcessorService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

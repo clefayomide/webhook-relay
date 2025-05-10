@@ -4,13 +4,15 @@ import {
   ProcessorVerifyReqPayloadType,
   ProcessorStrategyType,
   SupportedGatewayType,
+  IPGWebhookPayloadType,
+  // NormalizedWebhookPayloadType,
 } from 'src/types';
-import { UtilsService } from 'src/modules/utils/utils.service';
 import { APP_MSG } from 'src/constant';
+import { Utils } from 'src/common/utils/app.utils';
 
 @Injectable()
 export class ProcessorService implements ProcessorServiceI {
-  constructor(private readonly utils: UtilsService) {}
+  constructor(private readonly utils: Utils) {}
 
   private strategy: ProcessorStrategyType;
 
@@ -31,5 +33,12 @@ export class ProcessorService implements ProcessorServiceI {
     }
 
     return this.strategy.verifyRequest(rest);
+  }
+
+  public normalizeEvent(payload: IPGWebhookPayloadType) {
+    if (!this.strategy) {
+      throw new Error(APP_MSG.STRATEGY_NOT_FOUND);
+    }
+    return this.strategy.normalizeEvent(payload);
   }
 }

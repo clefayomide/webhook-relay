@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { GatewayServiceI, ProcessEventResponseType } from 'src/types';
-import { UtilsService } from '../utils/utils.service';
+import { GatewayServiceI, NormalizedWebhookPayloadType } from 'src/types';
+import { ProcessorService } from '../processor/processor.service';
 
 @Injectable()
 export class GatewayService implements GatewayServiceI {
-  constructor(private readonly utils: UtilsService) {}
-  processEvent(name: string): Promise<ProcessEventResponseType> {
-    return Promise.resolve({ eventId: '1', eventType: '2' });
+  constructor(private readonly processorService: ProcessorService) {}
+  processEvent(body: any): NormalizedWebhookPayloadType {
+    return this.processorService.normalizeEvent(body);
   }
 }

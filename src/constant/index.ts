@@ -16,3 +16,33 @@ export const apiEntryPoint = 'gateway';
 export const SECRET_PATHS = {
   IPG: 'gatewaySecretkeys.ipg',
 };
+
+export const IPG_EVENTS = {
+  TRANSACTION: {
+    CREATED: 'TRANSACTION.CREATED',
+    UPDATED: 'TRANSACTION.UPDATED',
+    COMPLETED: 'TRANSACTION.COMPLETED',
+  },
+} as const;
+
+export const INTERNAL_EVENTS = {
+  TRANSACTION: {
+    CREATED: 'transaction.created',
+    UPDATED: 'transaction.updated',
+    COMPLETED: 'transaction.completed',
+    SUCCESSFUL: 'transaction.successful',
+    FAILED: 'transaction.failed',
+    CANCELLED: 'transaction.cancelled',
+  },
+} as const;
+
+export const STATUSES = {
+  successful: {
+    slug: 'successful',
+    possibleStatus: ['00'],
+  },
+};
+
+export const CURRENCY_CODES = {
+  '566': 'NGN',
+};
