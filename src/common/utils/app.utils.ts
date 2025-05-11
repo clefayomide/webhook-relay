@@ -10,14 +10,22 @@ import { IPGProvider } from 'src/modules/provider/ipg.service';
 
 @Injectable()
 export class Utils implements UtilsType {
+  private readonly strategyRegistry: Record<
+    SupportedGatewayType,
+    ProcessorStrategyType
+  >;
   constructor(
     private readonly configService: ConfigService,
     @Inject(forwardRef(() => IPGProvider))
     private readonly IPGProvider: IPGProvider,
-  ) {}
+  ) {
+    this.strategyRegistry = {
+      [SUPPORTED_GATEWAY.IPG]: this.IPGProvider,
+    };
+  }
 
   public resolveGatewayStrategy(gateway: SupportedGatewayType) {
-    return this.createStrategyMap(gateway);
+    return this.strategyRegistry[gateway] || null;
   }
 
   public resolveTransactionStatus(status: string) {
@@ -29,21 +37,8 @@ export class Utils implements UtilsType {
     }
   }
 
-  private createStrategyMap(gateway: SupportedGatewayType) {
-    const strategyMap: Record<SupportedGatewayType, ProcessorStrategyType> = {
-      [SUPPORTED_GATEWAY.IPG]: this.IPGProvider,
-    };
-
-    return strategyMap[gateway] || null;
-  }
-
   public getProviderSecret(gateway: SupportedGatewayType) {
-    const secrets = {
-      [SUPPORTED_GATEWAY.IPG]: this.configService.get<string>(
-        SECRET_PATHS.IPG,
-      ) as string,
-    };
-
-    return secrets[gateway] || null;
+    const secretKey = gateway.toUpperCase() as keyof typeof SECRET_PATHS;
+    return this.configService.get<string>(SECRET_PATHS[secretKey]) ?? null;
   }
 }

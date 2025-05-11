@@ -3,6 +3,9 @@ import {
   Injectable,
   Logger,
   NestMiddleware,
+  Next,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
@@ -15,7 +18,7 @@ export class SecurityMiddleware implements NestMiddleware {
     private readonly processorService: ProcessorService,
     private readonly logger: Logger,
   ) {}
-  use(req: Request, res: Response, next: NextFunction) {
+  use(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     const startTime = Date.now();
     const gateway = req.params.name?.toLowerCase() as SupportedGatewayType;
 

@@ -6,7 +6,7 @@ import {
 } from 'src/types';
 import * as crypto from 'crypto';
 import { IPGAdapter } from 'src/common/adapter/ipg.adapter';
-import { SUPPORTED_GATEWAY } from 'src/constant';
+import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
 import { Utils } from 'src/common/utils/app.utils';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
@@ -34,6 +34,11 @@ export class IPGProvider implements IPGProviderI {
     const secret = this.utils.getProviderSecret(
       SUPPORTED_GATEWAY.IPG,
     ) as string;
+
+    if (!secret) {
+      throw new Error(APP_MSG.SECRET_NOT_FOUND);
+    }
+
     const generatedHash = crypto
       .createHmac('sha512', secret)
       .update(data)
