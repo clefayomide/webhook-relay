@@ -30,7 +30,7 @@ export class SecurityMiddleware implements NestMiddleware {
 
     if (!gateway || !Object.values(SUPPORTED_GATEWAY).includes(gateway)) {
       this.logger.error(
-        `[${req.method}] ${req.url}: ${APP_MSG.UNSUPPORTED_GATEWAY} - supplied gateway:${gateway}`,
+        `[${req.method}] ${req.url}: ${APP_MSG.UNSUPPORTED_GATEWAY}`,
         { headers: req.headers, ip: req.ip },
         SecurityMiddleware.name,
       );
@@ -52,6 +52,11 @@ export class SecurityMiddleware implements NestMiddleware {
       throw new BadRequestException(APP_MSG.INVALID_PAYLOAD);
     }
 
+    this.logger.log(
+      `[${req.method}] ${req.url}: ${APP_MSG.SIGNATURE_VERIFICATION_SUCCESSFUL}`,
+      { headers: req.headers, ip: req.ip },
+    );
+
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
       this.logger.log(
@@ -60,6 +65,7 @@ export class SecurityMiddleware implements NestMiddleware {
         SecurityMiddleware.name,
       );
     });
+
     next();
   }
 }

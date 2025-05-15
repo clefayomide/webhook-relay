@@ -10,6 +10,7 @@ export const APP_MSG = {
   UNSUPPORTED_EVENT: 'Unsupported event type',
   MISSING_FIELD: 'Missing event and data field',
   SECRET_NOT_FOUND: 'secret not found',
+  SIGNATURE_VERIFICATION_SUCCESSFUL: 'signature verification successful',
 };
 
 export const FALL_BACK_PORT = 3000;
