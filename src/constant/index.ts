@@ -50,3 +50,6 @@ export const STATUSES = {
 export const CURRENCY_CODES = {
   '566': 'NGN',
 };
+
+export const rootPathText =
+  'Welcome to the Webhook Relay & Processing Template';

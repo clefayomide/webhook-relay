@@ -3,11 +3,11 @@ import {
   IPGProviderI,
   IPGVerifyHashParamsType,
   IPGWebhookPayloadType,
-} from 'src/types';
+} from '../../types';
 import * as crypto from 'crypto';
-import { IPGAdapter } from 'src/common/adapter/ipg.adapter';
-import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
-import { Utils } from 'src/common/utils/app.utils';
+import { IPGAdapter } from '../../common/adapter/ipg.adapter';
+import { APP_MSG, SUPPORTED_GATEWAY } from '../../constant';
+import { Utils } from '../../common/utils/app.utils';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

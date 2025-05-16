@@ -1,12 +1,12 @@
-import { SECRET_PATHS, STATUSES, SUPPORTED_GATEWAY } from 'src/constant';
+import { SECRET_PATHS, STATUSES, SUPPORTED_GATEWAY } from '../../constant';
 import {
   ProcessorStrategyType,
   SupportedGatewayType,
   UtilsType,
-} from 'src/types';
+} from '../../types';
 import { ConfigService } from '@nestjs/config';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { IPGProvider } from 'src/modules/provider/ipg.service';
+import { IPGProvider } from '../../modules/provider/ipg.service';
 
 @Injectable()
 export class Utils implements UtilsType {
