@@ -5,7 +5,6 @@ import { rootPathText } from './constant';
 
 describe('AppController', () => {
   let appController: AppController;
-  
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({

@@ -11,7 +11,7 @@ import { Utils } from '../../common/utils/app.utils';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class IPGProvider implements IPGProviderI {
+export class IPGProviderService implements IPGProviderI {
   constructor(
     @Inject(forwardRef(() => Utils))
     private readonly utils: Utils,
