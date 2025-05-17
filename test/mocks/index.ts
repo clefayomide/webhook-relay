@@ -1,3 +1,5 @@
+import { ipgHeaderSignatureKey } from '../../src/constant';
+
 export const ipgMockData = {
   body: {
     event: 'TRANSACTION.COMPLETED',
@@ -26,7 +28,7 @@ export const ipgMockData = {
     },
   },
   header: {
-    'x-interswitch-signature':
+    [ipgHeaderSignatureKey]:
       'b814a610d6750c2a9d1ed42144e2be08e630dd50f45f0ba11760f9f71a615f9aba0d8f98d5467294d0b39cc66987e9a397a90caade7b297409a4720687612db5',
   },
   normalizedEvent: {

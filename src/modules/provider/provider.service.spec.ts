@@ -5,6 +5,7 @@ import { Utils } from '../../common/utils/app.utils';
 import { IPGAdapter } from '../../common/adapter/ipg.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from '../../config/configuration';
+import { ipgHeaderSignatureKey } from '../../constant';
 // import { IPGWebhookPayloadType } from 'src/types';
 
 let IPGService: IPGProviderService;
@@ -29,7 +30,7 @@ describe('Test the signature validation logic that verifies the event authentici
   });
 
   it('should return false if IPG signature is invalid', () => {
-    ipgMockData.header['x-interswitch-signature'] = 'invalid';
+    ipgMockData.header[ipgHeaderSignatureKey] = 'invalid';
     expect(
       IPGService.verifyRequest({
         body: ipgMockData.body,

@@ -6,7 +6,11 @@ import {
 } from '../../types';
 import * as crypto from 'crypto';
 import { IPGAdapter } from '../../common/adapter/ipg.adapter';
-import { APP_MSG, SUPPORTED_GATEWAY } from '../../constant';
+import {
+  APP_MSG,
+  ipgHeaderSignatureKey,
+  SUPPORTED_GATEWAY,
+} from '../../constant';
 import { Utils } from '../../common/utils/app.utils';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
@@ -19,7 +23,7 @@ export class IPGProviderService implements IPGProviderI {
   ) {}
 
   public verifyRequest({ body, headers }: ProviderVerifyReqPayloadType) {
-    const signature = headers['x-interswitch-signature'] as string;
+    const signature = headers[ipgHeaderSignatureKey] as string;
 
     if (!signature) {
       return false;
