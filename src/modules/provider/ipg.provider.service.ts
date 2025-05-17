@@ -3,15 +3,19 @@ import {
   IPGProviderI,
   IPGVerifyHashParamsType,
   IPGWebhookPayloadType,
-} from 'src/types';
+} from '../../types';
 import * as crypto from 'crypto';
-import { IPGAdapter } from 'src/common/adapter/ipg.adapter';
-import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
-import { Utils } from 'src/common/utils/app.utils';
+import { IPGAdapter } from '../../common/adapter/ipg.adapter';
+import {
+  APP_MSG,
+  ipgHeaderSignatureKey,
+  SUPPORTED_GATEWAY,
+} from '../../constant';
+import { Utils } from '../../common/utils/app.utils';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class IPGProvider implements IPGProviderI {
+export class IPGProviderService implements IPGProviderI {
   constructor(
     @Inject(forwardRef(() => Utils))
     private readonly utils: Utils,
@@ -19,7 +23,7 @@ export class IPGProvider implements IPGProviderI {
   ) {}
 
   public verifyRequest({ body, headers }: ProviderVerifyReqPayloadType) {
-    const signature = headers['x-interswitch-signature'] as string;
+    const signature = headers[ipgHeaderSignatureKey] as string;
 
     if (!signature) {
       return false;

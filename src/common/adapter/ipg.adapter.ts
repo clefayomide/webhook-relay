@@ -5,12 +5,12 @@ import {
   INTERNAL_EVENTS,
   IPG_EVENTS,
   SUPPORTED_GATEWAY,
-} from 'src/constant';
+} from '../../constant';
 import {
   IPGAdapterI,
   IPGWebhookPayloadType,
   NormalizedWebhookPayloadType,
-} from 'src/types';
+} from '../../types';
 import { Utils } from '../utils/app.utils';
 
 /**

@@ -6,9 +6,9 @@ import {
   SupportedGatewayType,
   IPGWebhookPayloadType,
   // NormalizedWebhookPayloadType,
-} from 'src/types';
-import { APP_MSG } from 'src/constant';
-import { Utils } from 'src/common/utils/app.utils';
+} from '../../types';
+import { APP_MSG } from '../../constant';
+import { Utils } from '../../common/utils/app.utils';
 
 @Injectable()
 export class ProcessorService implements ProcessorServiceI {

@@ -8,9 +8,9 @@ import {
   Res,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { APP_MSG, SUPPORTED_GATEWAY } from 'src/constant';
-import { ProcessorService } from 'src/modules/processor/processor.service';
-import { SupportedGatewayType } from 'src/types';
+import { APP_MSG, SUPPORTED_GATEWAY } from '../../constant';
+import { ProcessorService } from '../../modules/processor/processor.service';
+import { SupportedGatewayType } from '../../types';
 
 @Injectable()
 export class SecurityMiddleware implements NestMiddleware {

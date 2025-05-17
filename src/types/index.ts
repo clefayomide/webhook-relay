@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { INTERNAL_EVENTS, IPG_EVENTS, SUPPORTED_GATEWAY } from 'src/constant';
-import { IPGProvider } from 'src/modules/provider/ipg.service';
+import { IPGProviderService } from 'src/modules/provider/ipg.provider.service';
 
 export interface GatewayControllerI {
   receiveEvent(body: any, response: Response): NormalizedWebhookPayloadType;
@@ -10,7 +10,7 @@ export interface GatewayServiceI {
   processEvent(body: any): NormalizedWebhookPayloadType;
 }
 
-export type ProcessorStrategyType = IPGProvider | null;
+export type ProcessorStrategyType = IPGProviderService | null;
 
 export type ProcessorVerifyReqPayloadType = {
   gateway: SupportedGatewayType;
