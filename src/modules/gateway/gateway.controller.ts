@@ -7,8 +7,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
-import { GatewayControllerI } from 'src/types';
-import { apiEntryPoint } from 'src/constant';
+import { GatewayControllerI } from '../../types';
+import { apiEntryPoint } from '../../constant';
 import { Response } from 'express';
 
 @Controller(apiEntryPoint)

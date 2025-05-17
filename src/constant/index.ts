@@ -2,8 +2,10 @@ export const SUPPORTED_GATEWAY = {
   IPG: 'ipg',
 } as const;
 
+export const supportedGateways = Object.values(SUPPORTED_GATEWAY).toString();
+
 export const APP_MSG = {
-  UNSUPPORTED_GATEWAY: `We only support the following gateways currently: ${Object.values(SUPPORTED_GATEWAY).toString()}`,
+  UNSUPPORTED_GATEWAY: `We only support the following gateways currently: ${supportedGateways}`,
   INVALID_PAYLOAD:
     'Insufficient or malformed payload: check your header and body',
   STRATEGY_NOT_FOUND: "couldn't determine strategy",
@@ -13,6 +15,7 @@ export const APP_MSG = {
   SIGNATURE_VERIFICATION_SUCCESSFUL: 'signature verification successful',
 };
 
+export const ipgHeaderSignatureKey = 'x-interswitch-signature';
 export const FALL_BACK_PORT = 3000;
 
 export const apiEntryPoint = 'gateway';
@@ -50,3 +53,6 @@ export const STATUSES = {
 export const CURRENCY_CODES = {
   '566': 'NGN',
 };
+
+export const rootPathText =
+  'Welcome to the Webhook Relay & Processing Template';

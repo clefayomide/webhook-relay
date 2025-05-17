@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { IPGProvider } from './ipg.service';
+import { IPGProviderService } from './ipg.provider.service';
 import { IPGAdapter } from 'src/common/adapter/ipg.adapter';
 
 @Module({
-  providers: [IPGProvider, IPGAdapter],
+  providers: [IPGProviderService, IPGAdapter],
 })
 export class ProviderModule {}
