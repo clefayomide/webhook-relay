@@ -2,7 +2,6 @@ import { WinstonModule } from 'nest-winston';
 import { transports, format } from 'winston';
 import 'winston-daily-rotate-file';
 
-
 // This file defines a factory function to create a logger instance using `nest-winston`.
 // The logger supports daily rotating file logs for error and combined logs,
 // and console logs for non-production environments.
@@ -29,7 +28,7 @@ export const LoggerFactory = () => {
                 format.splat(),
                 format.timestamp(),
                 format.printf((info) => {
-                  return `${info.timestamp} ${info.level}: ${info.message}`;
+                  return `${String(info.timestamp)} ${String(info.level)}: ${String(info.message)}`;
                 }),
               ),
             }),

@@ -1,0 +1,45 @@
+name: Webhook Relay CI Pipeline
+
+on:
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Format code
+        run: yarn run format
+
+      - name: Check code quality
+        run: yarn run lint
+
+      - name: Run unit test
+        run: yarn run test
+        env:
+          IPG_NOTIFICATION_SECRET_KEY: ${{ secrets.IPG_NOTIFICATION_SECRET_KEY }}
+
+      - name: Create production build
+        run: yarn run build
+
+      - name: Run e2e test
+        run: yarn run test:e2e
+        env:
+          IPG_NOTIFICATION_SECRET_KEY: ${{ secrets.IPG_NOTIFICATION_SECRET_KEY }}

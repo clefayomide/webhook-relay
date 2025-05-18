@@ -40,7 +40,7 @@ export class SecurityMiddleware implements NestMiddleware {
     if (
       !this.processorService.verifyRequest({
         gateway,
-        body: req.body,
+        body: req.body as unknown,
         headers: req.headers,
       })
     ) {
