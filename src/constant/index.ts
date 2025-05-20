@@ -56,3 +56,18 @@ export const CURRENCY_CODES = {
 
 export const rootPathText =
   'Welcome to the Webhook Relay & Processing Template';
+
+export const ipgEventCases = [
+  {
+    event: IPG_EVENTS.TRANSACTION.CREATED,
+    internal: INTERNAL_EVENTS.TRANSACTION.CREATED,
+  },
+  {
+    event: IPG_EVENTS.TRANSACTION.UPDATED,
+    internal: INTERNAL_EVENTS.TRANSACTION.UPDATED,
+  },
+  {
+    event: IPG_EVENTS.TRANSACTION.COMPLETED,
+    internal: INTERNAL_EVENTS.TRANSACTION.COMPLETED,
+  },
+];
