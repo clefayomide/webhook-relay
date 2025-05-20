@@ -30,9 +30,9 @@ describe('Test the signature validation logic that verifies the event authentici
   });
 
   it('should return false if IPG signature is invalid', () => {
-    const localMockData: typeof ipgMockData = JSON.parse(
+    const localMockData = JSON.parse(
       JSON.stringify(ipgMockData),
-    );
+    ) as typeof ipgMockData;
     localMockData.header[ipgHeaderSignatureKey] = 'invalid';
     expect(
       IPGService.verifyRequest({
@@ -47,12 +47,12 @@ describe('Test the normalization logic that transforms event payloads into the i
   it.each(ipgEventCases)(
     'should normalize IPG event payload',
     ({ event, internal }) => {
-      const localMockData: typeof ipgMockData = JSON.parse(
+      const localMockData = JSON.parse(
         JSON.stringify(ipgMockData),
-      );
-      const originalEvent: IPGWebhookPayloadType = JSON.parse(
+      ) as typeof ipgMockData;
+      const originalEvent = JSON.parse(
         localMockData.normalizedEvent.originalEvent,
-      );
+      ) as IPGWebhookPayloadType;
 
       originalEvent.event = event;
       localMockData.body.event = event;
