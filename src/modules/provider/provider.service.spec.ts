@@ -5,8 +5,8 @@ import { Utils } from '../../common/utils/app.utils';
 import { IPGAdapter } from '../../common/adapter/ipg.adapter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from '../../config/configuration';
-import { ipgHeaderSignatureKey } from '../../constant';
-// import { IPGWebhookPayloadType } from 'src/types';
+import { ipgEventCases, ipgHeaderSignatureKey } from '../../constant';
+import { IPGWebhookPayloadType } from 'src/types';
 
 let IPGService: IPGProviderService;
 
@@ -26,24 +26,43 @@ describe('Test the signature validation logic that verifies the event authentici
         body: ipgMockData.body,
         headers: ipgMockData.header,
       }),
-    ).toStrictEqual<boolean>(true);
+    ).toBe(true);
   });
 
   it('should return false if IPG signature is invalid', () => {
-    ipgMockData.header[ipgHeaderSignatureKey] = 'invalid';
+    const localMockData = JSON.parse(
+      JSON.stringify(ipgMockData),
+    ) as typeof ipgMockData;
+    localMockData.header[ipgHeaderSignatureKey] = 'invalid';
     expect(
       IPGService.verifyRequest({
-        body: ipgMockData.body,
-        headers: ipgMockData.header,
+        body: localMockData.body,
+        headers: localMockData.header,
       }),
-    ).toStrictEqual<boolean>(false);
+    ).toBe(false);
   });
 });
 
-// describe('Test the normalization logic that transforms event payloads into the internal format', () => {
-//   it(`should normalize IPG event payload`, () => {
-//     expect(
-//       IPGService.normalizeEvent(ipgMockData.body as IPGWebhookPayloadType),
-//     ).toStrictEqual(ipgMockData.normalizedEvent);
-//   });
-// });
+describe('Test the normalization logic that transforms event payloads into the internal format', () => {
+  it.each(ipgEventCases)(
+    'should normalize IPG event payload',
+    ({ event, internal }) => {
+      const localMockData = JSON.parse(
+        JSON.stringify(ipgMockData),
+      ) as typeof ipgMockData;
+      const originalEvent = JSON.parse(
+        localMockData.normalizedEvent.originalEvent,
+      ) as IPGWebhookPayloadType;
+
+      originalEvent.event = event;
+      localMockData.body.event = event;
+      localMockData.normalizedEvent.eventType = internal;
+      localMockData.normalizedEvent.originalEvent =
+        JSON.stringify(originalEvent);
+
+      expect(
+        IPGService.normalizeEvent(localMockData.body as IPGWebhookPayloadType),
+      ).toStrictEqual(localMockData.normalizedEvent);
+    },
+  );
+});
