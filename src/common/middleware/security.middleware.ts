@@ -20,7 +20,9 @@ export class SecurityMiddleware implements NestMiddleware {
   ) {}
   use(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     const startTime = Date.now();
-    const gateway = req.params.name?.toLowerCase() as SupportedGatewayType;
+    const {name} = req.params;
+    const resolvedName = Array.isArray(name) ? name[0] : name;
+    const gateway = resolvedName?.toLowerCase() as SupportedGatewayType;
 
     // We validate the `provider` param here instead of using a ValidationPipe
     // because middleware in NestJS executes before the controller layer.
